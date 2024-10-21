@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Edit text by ollama",
+  "version": "0.1",
+  "description": "Some actions with LLM",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "menus"
+  ],
+  "icons": {
+    "48": "icons/48.png",
+    "96": "icons/96.png"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  }
+}
