@@ -152,6 +152,16 @@ function showTranslation(translationResult) {
         };
         overlay.appendChild(closeButton);
 
+        const copyButton = document.createElement("button");
+        copyButton.textContent = "Копировать";
+        copyButton.style.display = "block";
+        copyButton.style.margin = "10px auto 0";
+        copyButton.onclick = function() {
+          navigator.clipboard.writeText(contentString);
+          overlay.remove();
+        };
+        overlay.appendChild(copyButton);
+
         document.body.appendChild(overlay);
       })();
     `
