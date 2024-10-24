@@ -168,6 +168,61 @@ function showTranslation(translationResult) {
   });
 }
 
+function showMailEdit(translationResult) {
+  browser.tabs.executeScript({
+    code: `
+      (function() {
+        const overlay = document.createElement("div");
+        overlay.style.position = "fixed";
+        overlay.style.top = "50%";
+        overlay.style.left = "50%";
+        overlay.style.transform = "translate(-50%, -50%)";
+        overlay.style.backgroundColor = "black";
+        overlay.style.color = "white";
+        overlay.style.border = "1px solid #ccc";
+        overlay.style.padding = "20px";
+        overlay.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.2)";
+        overlay.style.zIndex = "9999";
+
+        const content = document.createElement("p");
+        content.textContent = "${translationResult.replace(/\n/g, "\\n")}";
+        var contentString = "${translationResult.replace(/\n/g, "\\n")}";
+        overlay.appendChild(content);
+
+        const closeButton = document.createElement("button");
+        closeButton.textContent = "OK";
+        closeButton.style.display = "block";
+        closeButton.style.margin = "10px auto 0";
+        closeButton.onclick = function() {
+          overlay.remove();
+        };
+        overlay.appendChild(closeButton);
+
+        const copyButton = document.createElement("button");
+        copyButton.textContent = "Копировать";
+        copyButton.style.display = "block";
+        copyButton.style.margin = "10px auto 0";
+        copyButton.onclick = function() {
+          navigator.clipboard.writeText(contentString);
+          overlay.remove();
+        };
+        overlay.appendChild(copyButton);
+
+        const applyButton = document.createElement("button");
+        applyButton.textContent = "Применить";
+        applyButton.style.display = "block";
+        applyButton.style.margin = "10px auto 0";
+        applyButton.onclick = function() {
+          overlay.remove();
+        };
+        overlay.appendChild(applyButton);
+
+        document.body.appendChild(overlay);
+      })();
+    `
+  });
+}
+
 browser.menus.create({
   icons: {
     16: "icons/mail-16.png",
@@ -202,7 +257,7 @@ browser.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "mailEditor") {
     sendMailEditRequest(selectedText).then(translationResult => {
       hideLoading();
-      showTranslation(translationResult.response);
+      showMailEdit(translationResult.response);
     });
   }
 });
