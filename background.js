@@ -77,7 +77,7 @@ async function sendMailEditRequest(text) {
   text = escapeStringForJSON(text);
 
   const promptTemplate = `{
-    "model": "qwen2:7b-instruct-q8_0",
+    "model": "aya-expanse:8b-q8_0",
     "prompt": "Измени текст в письме на вежливый и деловой: {text}",
     "stream": false,
     "temperature": 0
@@ -102,7 +102,7 @@ async function sendTranslationRequest(text) {
   text = escapeStringForJSON(text);
 
   const promptTemplate = `{
-    "model": "qwen2:7b-instruct-q8_0",
+    "model": "aya-expanse:8b-q8_0",
     "prompt": "Переведи текст на русский язык：{text}",
     "stream": false
   }`;
